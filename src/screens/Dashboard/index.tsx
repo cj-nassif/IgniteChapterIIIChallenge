@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/core';
+import { NavigationContainer } from '@react-navigation/native';
 import React, { useRef, useState } from 'react';
 import { TextInput } from 'react-native';
 
@@ -27,6 +28,8 @@ export function Dashboard() {
   const { addRepository, repositories } = useRepositories();
 
   function handleAddRepository() {
+    addRepository(inputText);
+    setInputText('');
     /**
      * TODO: 
      * - call addRepository function sending inputText value;
@@ -36,6 +39,9 @@ export function Dashboard() {
   }
 
   function handleRepositoryPageNavigation(id: number) {
+    navigate('Repository', {
+      repositoryId: id
+    })
     /**
      * TODO - navigate to the Repository screen sending repository id.
      * Remember to use the correct prop name (repositoryId) to the repositoy id:
@@ -57,10 +63,11 @@ export function Dashboard() {
               ref={inputRef}
               placeholder="Digite aqui 'usuário/repositório'"
               value={inputText}
+              onChangeText={setInputText}
               /**
                * TODO - update inputText value when input text value 
                * changes:
-               * onChangeText={YOUR CODE HERE}
+               onChangeText={YOUR CODE HERE}
                */
               onSubmitEditing={handleAddRepository}
               returnKeyType="send"
@@ -71,6 +78,7 @@ export function Dashboard() {
             <InputButton
               testID="input-button"
               onPress={handleAddRepository}
+              disabled={!inputText}
             /**
              * TODO - ensure to disable button when inputText is 
              * empty (use disabled prop to this):
